@@ -1,3 +1,3 @@
-Meteor.publish("messages", function() {
-    return Messages.find({}, {sort: {time: 1}});
+Meteor.publish("messages", function(date) {
+    return Messages.find({time: {$gt: date}}, {sort: {time: 1}});
 });

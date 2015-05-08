@@ -10,8 +10,8 @@
 
 <template name="message">
     <div class="message">
-        <span class="time">{{formatTimestamp time}} - </span>
-        <span class="username">{{username}}: </span>
+        <span class="time">[{{formatTimestamp time}}]</span>
+        <span class="username">&lt;{{username}}&gt;</span>
         {{#markdown}}{{message}}{{/markdown}}
     </div>
 </template>

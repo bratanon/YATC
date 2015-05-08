@@ -5,8 +5,8 @@
 # but you can also edit it by hand.
 
 meteor-platform
-insecure
 mquandalle:bower
 mrt:moment
 markdown
 less
+mizzao:timesync
