@@ -1,0 +1,17 @@
+<template name="messages">
+    <div id="chat-container">
+        <div id="chat-container-inner">
+          {{#each messages}}
+              {{> message}}
+          {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="message">
+    <div class="message">
+        <span class="time">{{formatTimestamp time}} - </span>
+        <span class="username">{{username}}: </span>
+        {{#markdown}}{{message}}{{/markdown}}
+    </div>
+</template>

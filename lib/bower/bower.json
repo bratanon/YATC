@@ -1,0 +1,30 @@
+{
+  "name": "yatc",
+  "version": "0.0.0",
+  "authors": [
+    "Emil Stjerneman <emil@stjerneman.com>"
+  ],
+  "description": "Yet another Tjatter client",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize.css": "~3.0.3",
+    "vex": "~2.3.2"
+  },
+  "overrides": {
+    "vex": {
+      "arch": [ "client" ],
+      "main": [
+        "css/vex.css",
+        "css/vex-theme-os.css",
+        "js/vex.combined.min.js"
+      ]
+    }
+  }
+}
