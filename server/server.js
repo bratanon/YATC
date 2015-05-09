@@ -35,7 +35,7 @@ Streamy.on('username_set', function(data, socket) {
         sid: socket.id,
         time: Date.now(),
         username: data.username
-    });
+    }, socket.id);
 });
 
 Meteor.publish('clients', function() {
