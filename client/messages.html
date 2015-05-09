@@ -9,9 +9,25 @@
 </template>
 
 <template name="message">
-    <div class="message">
+    <div class="message {{messageType}}">
         <span class="time">[{{formatTimestamp time}}]</span>
-        <span class="username">&lt;{{username}}&gt;</span>
-        {{#markdown}}{{message}}{{/markdown}}
+
+        {{#if isMessage}}
+            <span class="username">&lt;{{username}}&gt;</span>
+        {{/if}}
+
+        {{#if isJoin}}
+            <span class="username">*</span>
+        {{/if}}
+
+        {{#if isLeave}}
+            <span class="username">*</span>
+        {{/if}}
+
+        {{#if isLocalMessage}}
+            <span class="username">*</span>
+        {{/if}}
+
+        {{#markdown}}{{content}}{{/markdown}}
     </div>
 </template>
