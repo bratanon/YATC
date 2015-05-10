@@ -1,0 +1,10 @@
+<template name="clients">
+    <section id="client-container">
+        <header>Users online ({{count}})</header>
+        <ul>
+            {{#each clients}}
+                <li>{{username}}</li>
+            {{/each}}
+        </ul>
+    </section>
+</template>

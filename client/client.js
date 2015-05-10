@@ -78,6 +78,15 @@ Template.message.helpers({
     }
 });
 
+Template.clients.helpers({
+    clients: function() {
+        return Clients.find({}, {sort: {username: 1}});
+    },
+    count: function () {
+        return Clients.find({}).count();
+    }
+});
+
 Template.message.rendered = function() {
     var $scroll_container = $("#chat-container");
     $scroll_container.scrollTop($scroll_container.prop("scrollHeight"));
