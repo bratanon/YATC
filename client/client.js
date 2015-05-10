@@ -5,7 +5,6 @@ Meteor._debug = (function (super_meteor_debug) {
     }
 })(Meteor._debug);
 
-Meteor.subscribe('clients');
 
 var Messages = new Mongo.Collection(null);
 
@@ -141,6 +140,8 @@ function insertMessage(time, content, client, type) {
 }
 
 function init() {
+    Meteor.subscribe('clients');
+
     $("#message").focus();
     insertMessage(TimeSync.serverTime(), "YATC - Yet another tjatter client by BratAnon", null, "local");
     insertMessage(TimeSync.serverTime(), "Welcome " + Session.get("username"), null, "local");
