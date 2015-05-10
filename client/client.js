@@ -161,9 +161,9 @@ var commands = {
         });
     },
     slap: function(string) {
-        var recipient = string.split(" ")[0].toLowerCase();
+        var recipient = string.split(" ")[0];
         var client = Clients.findOne({
-            username: recipient
+            username: { $regex : new RegExp(recipient, "i") }
         });
 
         if (client == null) {
