@@ -58,8 +58,6 @@ form#message_form {
         background-color: #fff;
         position: relative;
 
-
-
         &:before {
             content: ">";
             position: absolute;
@@ -101,9 +99,18 @@ input {
     &.message-join,
     &.message-leave {
         color: #0000ff;
+
+        p {
+            font-style: italic;
+        }
     }
 
     &.message-local {
         color: #008000;
+    }
+
+    &.message-me,
+    &.message-slap{
+        color: #8a2be2;
     }
 }

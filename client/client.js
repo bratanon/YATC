@@ -32,14 +32,14 @@ Meteor.startup(function() {
     }
 });
 
-Streamy.on("__join__", function(data) {
-    var msg = data.username + " has joined.";
-    insertMessage(data.time, msg, null, "__join__");
+Streamy.on("__join__", function(message) {
+    var msg = message.username + " has joined.";
+    insertMessage(message.time, msg, null, "join");
 });
 
-Streamy.on('__leave__', function(data) {
-    var msg = data.username + " has left.";
-    insertMessage(data.time, msg, null, "__leave__");
+Streamy.on('__leave__', function(message) {
+    var msg = message.username + " has left.";
+    insertMessage(message.time, msg, null, "leave");
 });
 
 Streamy.on("__message__", function(message) {
@@ -47,7 +47,11 @@ Streamy.on("__message__", function(message) {
         sid: message.__from
     });
 
-    insertMessage(message.time, message.content, client, "__message__");
+    if (client == null) {
+        return;
+    }
+
+    insertMessage(message.time, message.content, client, message.type);
 });
 
 Template.messages.helpers({
@@ -57,20 +61,8 @@ Template.messages.helpers({
 });
 
 Template.message.helpers({
-    isMessage: function() {
-        return this.type === "__message__";
-    },
-    isJoin: function() {
-        return this.type === "__join__";
-    },
-    isLeave: function() {
-        return this.type === "__leave__";
-    },
-    isLocalMessage: function() {
-        return this.type === "__local__";
-    },
     messageType: function() {
-        return "message-" + this.type.replace(/\_/g, "");
+        return "message-" + this.type;
     }
 });
 
@@ -88,12 +80,18 @@ Template.message_form.events = {
         }
 
         var $element = $("#message");
-        var content = $element.val();
+        var content = $element.val().trim();
+
+        if (content.indexOf('/') === 0) {
+            parseCommand(content);
+            $element.val('');
+            return;
+        }
 
         Streamy.broadcast("__message__", {
             time: TimeSync.serverTime(),
             content: content,
-            type: "message"
+            type: "default"
         });
 
         $element.val('');
@@ -102,6 +100,10 @@ Template.message_form.events = {
 
 Template.registerHelper("formatTimestamp", function (timestamp) {
     return moment(new Date(timestamp)).format("HH:mm:ss");
+});
+
+Template.registerHelper("equals", function (a, b) {
+    return a === b;
 });
 
 function insertMessage(time, content, client, type) {
@@ -119,8 +121,8 @@ function insertMessage(time, content, client, type) {
 
 function init() {
     $("#message").focus();
-    insertMessage(TimeSync.serverTime(), "YATC - Yet another tjatter client by BratAnon", null, "__local__");
-    insertMessage(TimeSync.serverTime(), "Welcome " + Session.get("username"), null, "__local__");
+    insertMessage(TimeSync.serverTime(), "YATC - Yet another tjatter client by BratAnon", null, "local");
+    insertMessage(TimeSync.serverTime(), "Welcome " + Session.get("username"), null, "local");
 }
 
 function setUsername(username) {
@@ -132,4 +134,62 @@ function setUsername(username) {
 
 function isAuthed() {
     return Session.get("username") != undefined;
+}
+
+/**
+ * COMMANDS
+ */
+
+var commands = {
+    me: function(string) {
+        Streamy.broadcast("__message__", {
+            time: TimeSync.serverTime(),
+            content: string,
+            type: "me"
+        });
+    },
+    slap: function(string) {
+        var recipient = string.split(" ")[0].toLowerCase();
+        var client = Clients.findOne({
+            username: recipient
+        });
+
+        if (client == null) {
+            insertMessage(TimeSync.serverTime(), "User \"" + recipient + "\" doesn't exísts.", null, "__local__");
+            return;
+        }
+
+        Streamy.broadcast("__message__", {
+            time: TimeSync.serverTime(),
+            content: "slaps " + client.username + " around a bit with a large trout",
+            type: "slap"
+        }, client.sid);
+
+        Streamy.sessions(client.sid).emit("__message__", {
+            time: TimeSync.serverTime(),
+            content: "slaps you around a bit with a large trout",
+            type: "slap"
+        });
+
+    }
+};
+
+function parseCommand(string) {
+    if (string.indexOf('/') !== 0) {
+        throw new Meteor.Error('Not a command');
+    }
+
+    var args_separator = string.indexOf(" ");
+    var commandName = string.substring(1, args_separator);
+    var args = string.substring(args_separator).trim();
+
+    if (args.length < 1) {
+        return;
+    }
+
+    if (commands[commandName] === undefined) {
+        throw new Meteor.Error('Couldnt find command :' + commandName);
+    }
+
+    commands[commandName](args);
 }
