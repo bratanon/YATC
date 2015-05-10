@@ -10,26 +10,38 @@ Meteor.subscribe('clients');
 var Messages = new Mongo.Collection(null);
 
 Meteor.startup(function() {
-    if (!isAuthed()) {
-        vex.defaultOptions.className = 'vex-theme-os';
-        vex.dialog.prompt({
-            message: 'To start chat we need to know who you are',
-            placeholder: 'What is your name?',
-            callback: function(name) {
-                setUsername(name);
-                init();
-            },
-            showCloseButton: false,
-            escapeButtonCloses: false,
-            overlayClosesOnClick: false,
-            buttons: [
-                vex.dialog.buttons.YES
-            ]
-        });
-    }
-    else {
-        init();
-    }
+    vex.defaultOptions.className = 'vex-theme-os';
+    vex.dialog.prompt({
+        message: 'To start chat we need to know who you are',
+        callback: function(name) {
+            setUsername(name);
+            init();
+        },
+        showCloseButton: false,
+        escapeButtonCloses: false,
+        overlayClosesOnClick: false,
+        buttons: [
+            vex.dialog.buttons.YES
+        ],
+        input: '<input name="name" type="text" class="vex-dialog-prompt-input" placeholder="What is your name?" required pattern="^[a-öA-Ö][a-öA-Ö0-9-_\\.]{1,20}$">',
+        onSubmit: function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var client = Clients.findOne({
+                username: { $regex : new RegExp(this.name.value, "i") }
+            });
+
+            if (client != null) {
+                alert('The name is already taken.');
+                return false;
+            }
+
+            var $vexContent = $(this).parent();
+            $vexContent.data().vex.value = this.name.value;
+            return vex.close($vexContent.data().vex.id);
+        }
+    });
 });
 
 Streamy.on("__join__", function(message) {
@@ -170,7 +182,6 @@ var commands = {
             content: "slaps you around a bit with a large trout",
             type: "slap"
         });
-
     }
 };
 
