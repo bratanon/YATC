@@ -106,6 +106,10 @@ Template.message_form.events = {
         var $element = $("#message");
         var content = $element.val().trim();
 
+        if (!content) {
+            return;
+        }
+
         if (content.indexOf('/') === 0) {
             parseCommand(content);
             $element.val('');
