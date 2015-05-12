@@ -9,7 +9,11 @@ commands.slap = {
     description: "Slap someone.",
     usage: "/slap [username]",
     callback: function (arg) {
+        var time = TimeSync.serverTime();
+
         if (arg.length < 1) {
+            insertMessage(time, "Malformed slap command.", "error");
+            insertMessage(time, "`" + this.usage + "`", "error");
             return;
         }
 
@@ -19,18 +23,18 @@ commands.slap = {
         });
 
         if (client == null) {
-            insertMessage(TimeSync.serverTime(), "User \"" + recipient + "\" doesn't exísts.", "error");
+            insertMessage(time, "User \"" + recipient + "\" doesn't exists.", "error");
             return;
         }
 
         Streamy.broadcast("__message__", {
-            time: TimeSync.serverTime(),
+            time: time,
             content: "slaps " + client.username + " around a bit with a large trout",
             type: "slap"
         }, client.sid);
 
         Streamy.sessions(client.sid).emit("__message__", {
-            time: TimeSync.serverTime(),
+            time: time,
             content: "slaps you around a bit with a large trout",
             type: "slap"
         });

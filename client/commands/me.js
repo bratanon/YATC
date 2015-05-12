@@ -9,12 +9,16 @@ commands.me = {
     description: "Talk in third person.",
     usage: "/me [message]",
     callback: function (arg) {
+        var time = TimeSync.serverTime();
+
         if (arg.length < 1) {
+            insertMessage(time, "Malformed me command.", "error");
+            insertMessage(time, "`" + this.usage + "`", "error");
             return;
         }
 
         Streamy.broadcast("__message__", {
-            time: TimeSync.serverTime(),
+            time: time,
             content: arg,
             type: "me"
         });
