@@ -1,6 +1,6 @@
 <template name="clients">
     <section id="client-container">
-        {{#if isAuthed}}
+        {{#if isAuthenticated}}
         <header>Users online ({{count}})</header>
         <ul>
             {{#each clients}}

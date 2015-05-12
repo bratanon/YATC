@@ -11,4 +11,3 @@ Template.messages.helpers({
         return Messages.find({}, {sort: {time: 1}});
     }
 });
-

@@ -1,11 +1,14 @@
 /**
- * Created by Emil on 2015-05-12.
+ *  YATC - Yet another tjatter client
+ *
+ *  by Emil Stjerneman (BratAnon).
  */
+
 Template.message_form.events = {
     'submit form': function(event) {
         event.preventDefault();
 
-        if (!isAuthed()) {
+        if (!isAuthenticated()) {
             return;
         }
 

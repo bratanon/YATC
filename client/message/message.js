@@ -53,7 +53,7 @@ Streamy.on("__message__", function(message) {
  * @param {String} [sender] - The sender name, or null.
  */
 insertMessage = function (time, content, type, sender) {
-    if (!isAuthed()) {
+    if (!isAuthenticated()) {
         return;
     }
 
