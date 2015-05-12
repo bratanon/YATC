@@ -1,3 +1,9 @@
+/**
+ *  YATC - Yet another tjatter client
+ *
+ *  by Emil Stjerneman (BratAnon).
+ */
+
 Messages = new Mongo.Collection(null);
 
 Template.messages.helpers({

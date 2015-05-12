@@ -5,7 +5,7 @@ commands.slap = function(string) {
     });
 
     if (client == null) {
-        insertMessage(TimeSync.serverTime(), "User \"" + recipient + "\" doesn't exísts.", null, "__local__");
+        insertMessage(TimeSync.serverTime(), "User \"" + recipient + "\" doesn't exísts.", "__local__");
         return;
     }
 

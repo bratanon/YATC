@@ -71,14 +71,14 @@ function askForUsername() {
  */
 function init() {
     $("#message").focus();
-    insertMessage(TimeSync.serverTime(), "YATC - Yet another tjatter client by BratAnon", null, "local");
-    insertMessage(TimeSync.serverTime(), "Welcome " + Session.get("username"), null, "local");
+    insertMessage(TimeSync.serverTime(), "YATC - Yet another tjatter client by BratAnon", "local");
+    insertMessage(TimeSync.serverTime(), "Welcome " + Session.get("username"), "local");
 }
 
 /**
  * Emit the username to the server.
  *
- * @param {String} username The username
+ * @param {String} username - The username.
  */
 function emitUsername(username) {
     Streamy.emit("username_set", {
@@ -89,7 +89,8 @@ function emitUsername(username) {
 /**
  * Checks if the username is in use.
  *
- * @param {String} username The username
+ * @param {String}username - The username.
+ * @return {Boolean} - False is the username is in use, otherwise true.
  */
 function checkUsername(username) {
     var client = Clients.findOne({
