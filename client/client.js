@@ -81,7 +81,7 @@ function init() {
  * @param {String} username - The username.
  */
 function emitUsername(username) {
-    Streamy.emit("username_set", {
+    Streamy.emit("__username_set__", {
         username: username
     });
 }

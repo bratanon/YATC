@@ -1,9 +1,17 @@
+/**
+ *  YATC - Yet another tjatter client
+ *
+ *  by Emil Stjerneman (BratAnon).
+ */
+
+// Client connects.
 Streamy.onConnect(function(socket) {
     Clients.insert({
         sid: socket.id
     });
 });
 
+// Client disconnects.
 Streamy.onDisconnect(function(socket) {
     var client = Clients.findOne({
         sid: socket.id
@@ -20,26 +28,27 @@ Streamy.onDisconnect(function(socket) {
     });
 });
 
-Streamy.on('username_set', function(data, socket) {
+// Client sets/changed username.
+Streamy.on("__username_set__", function(data, socket) {
     if (!data.username) {
-        throw new Meteor.Error('Empty username');
+        throw new Meteor.Error("Empty username");
     }
 
     Clients.update({
-        'sid': socket.id
+        sid: socket.id
     }, {
         $set: { username: data.username }
     });
 
-    Streamy.broadcast('__join__', {
+    Streamy.broadcast("__join__", {
         sid: socket.id,
         time: Date.now(),
         username: data.username
     }, socket.id);
 });
 
-Meteor.publish('clients', function() {
+Meteor.publish("clients", function() {
     return Clients.find({
-        'username': { $ne: null }
+        username: { $ne: null }
     });
 });
