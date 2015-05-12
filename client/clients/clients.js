@@ -13,5 +13,6 @@ Template.clients.helpers({
 });
 
 isAuthed = function () {
-    return Session.get("username") != undefined;
+    console.log("isAuthed returned : " + (Session.get("username") !== undefined));
+    return Session.get("username") !== undefined;
 };
