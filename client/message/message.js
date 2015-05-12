@@ -5,7 +5,7 @@
  */
 
 Template.registerHelper("formatTimestamp", function (timestamp) {
-    return moment(new Date(timestamp)).format("HH:mm:ss");
+    return moment(new Date(timestamp)).format(Meteor.settings.public.dateFormat);
 });
 
 Template.message.helpers({
