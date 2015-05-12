@@ -77,6 +77,8 @@ function askForUsername() {
 function init() {
     $("#message").focus();
     insertMessage(TimeSync.serverTime(), "YATC - Yet another tjatter client by BratAnon", "local");
+    insertMessage(TimeSync.serverTime(), "Currently " + Clients.find().count() + " online", "local");
+    insertMessage(TimeSync.serverTime(), "-", "local");
     insertMessage(TimeSync.serverTime(), "Welcome " + Session.get("username"), "local");
 }
 
