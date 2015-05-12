@@ -1,4 +1,9 @@
 <template name="message">
+    <audio id="chatAudio">
+        <source src="sounds/notify.ogg" type="audio/ogg">
+        <source src="sounds/notify.mp3" type="audio/mpeg">
+        <source src="sounds/notify.wav" type="audio/wav">
+    </audio>
     <div class="message {{messageType}}">
         <span class="time">[{{formatTimestamp time}}]</span>
 

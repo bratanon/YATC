@@ -14,10 +14,14 @@ Template.message.helpers({
     }
 });
 
-Template.message.rendered = function() {
+Template.message.onRendered(function() {
+    if (this.data.type === "default" && this.data.username !== Session.get("username")) {
+        $('#chatAudio')[0].play();
+    }
+
     var $scroll_container = $("#chat-container");
     $scroll_container.scrollTop($scroll_container.prop("scrollHeight"));
-};
+});
 
 // Someone is joining.
 Streamy.on("__join__", function(message) {
