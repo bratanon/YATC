@@ -1,8 +1,15 @@
+/**
+ *  YATC - Yet another tjatter client
+ *
+ *  by Emil Stjerneman (BratAnon).
+ */
+
 commands.me = {
     name: "Me",
+    description: "Talk in third person.",
     usage: "/me [message]",
     callback: function (arg) {
-        if (arg === undefined) {
+        if (arg.length < 1) {
             return;
         }
 

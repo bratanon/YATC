@@ -1,3 +1,9 @@
+/**
+ *  YATC - Yet another tjatter client
+ *
+ *  by Emil Stjerneman (BratAnon).
+ */
+
 commands = {};
 
 parseCommand = function (string) {
@@ -6,12 +12,12 @@ parseCommand = function (string) {
     }
 
     var arg_separator = string.indexOf(" ");
+    if (arg_separator === -1) {
+        arg_separator = string.length;
+    }
+
     var commandName = string.substring(1, arg_separator);
     var arg = string.substring(arg_separator).trim();
-
-    if (arg.length < 1) {
-        return;
-    }
 
     if (commands[commandName] === undefined) {
         insertMessage(TimeSync.serverTime(), "No such command.", "error");

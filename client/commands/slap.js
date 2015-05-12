@@ -1,7 +1,18 @@
+/**
+ *  YATC - Yet another tjatter client
+ *
+ *  by Emil Stjerneman (BratAnon).
+ */
+
 commands.slap = {
     name: "Slap",
+    description: "Slap someone.",
     usage: "/slap [username]",
     callback: function (arg) {
+        if (arg.length < 1) {
+            return;
+        }
+
         var recipient = arg.split(" ")[0];
         var client = Clients.findOne({
             username: { $regex : new RegExp(recipient, "i") }
