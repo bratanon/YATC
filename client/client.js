@@ -7,8 +7,9 @@
 // Override Meteor._debug to filter for custom msgs.
 Meteor._debug = (function (super_meteor_debug) {
     return function (error, info) {
-        if (!(info && _.has(info, 'msg')))
+        if (!(info && _.has(info, 'msg'))) {
             super_meteor_debug(error, info);
+        }
     }
 })(Meteor._debug);
 
@@ -45,7 +46,7 @@ function askForUsername() {
         buttons: [
             vex.dialog.buttons.YES
         ],
-        input: '<input name="username" type="text" class="vex-dialog-prompt-input" placeholder="What is your name?" required pattern="^[a-öA-Ö][a-öA-Ö0-9-_\\.]{1,20}$">',
+        input: '<input name="username" maxlength="20" type="text" class="vex-dialog-prompt-input" placeholder="What is your name?" required pattern="^[a-öA-Ö0-9-_\\.]{2,20}$">',
         callback: function(username) {
             Session.set("username", username);
             emitUsername(username);
@@ -56,6 +57,10 @@ function askForUsername() {
             event.stopPropagation();
 
             if (!checkUsername(this.username.value)) {
+                return false;
+            }
+
+            if (this.username.value.length > 20 || this.username.value < 2) {
                 return false;
             }
 
