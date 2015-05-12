@@ -14,8 +14,9 @@ parseCommand = function (string) {
     }
 
     if (commands[commandName] === undefined) {
+        insertMessage(TimeSync.serverTime(), "No such command.", "error");
         throw new Meteor.Error("Couldn't find command :" + commandName);
     }
 
-    commands[commandName](arg);
+    commands[commandName].callback(arg);
 };
